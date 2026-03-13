@@ -71,7 +71,15 @@ audio_bytes = None
 
 with col1:
     st.write("Graba tu audio en vivo:")
-    recorded_audio = audio_recorder(text="Haz clic para grabar", recording_color="#e83e8c", neutral_color="#6c757d", icon_name="microphone", icon_size="2x")
+    # Aumentamos pause_threshold para evitar que la grabación se corte al hacer una pausa natural al hablar
+    recorded_audio = audio_recorder(
+        text="Haz clic para grabar",
+        recording_color="#e83e8c",
+        neutral_color="#6c757d",
+        icon_name="microphone",
+        icon_size="2x",
+        pause_threshold=60.0
+    )
     if recorded_audio:
         st.success("¡Audio grabado con éxito!")
         audio_bytes = recorded_audio
