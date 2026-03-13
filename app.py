@@ -39,6 +39,8 @@ if "final_questions" not in st.session_state:
     st.session_state["final_questions"] = None
 if "is_processing" not in st.session_state:
     st.session_state["is_processing"] = False
+if "widget_key" not in st.session_state:
+    st.session_state["widget_key"] = 0
 
 # Header
 st.title("🏗️ Asistente Virtual de Ingeniería Civil")
@@ -78,7 +80,8 @@ with col1:
         neutral_color="#6c757d",
         icon_name="microphone",
         icon_size="2x",
-        pause_threshold=60.0
+        pause_threshold=60.0,
+        key=f"recorder_{st.session_state['widget_key']}"
     )
     if recorded_audio:
         st.success("¡Audio grabado con éxito!")
@@ -87,7 +90,12 @@ with col1:
 
 with col2:
     st.write("O sube un archivo de audio (.wav, .mp3, .m4a):")
-    uploaded_audio = st.file_uploader("Subir archivo de audio", type=["wav", "mp3", "m4a"], label_visibility="collapsed")
+    uploaded_audio = st.file_uploader(
+        "Subir archivo de audio",
+        type=["wav", "mp3", "m4a"],
+        label_visibility="collapsed",
+        key=f"uploader_{st.session_state['widget_key']}"
+    )
     if uploaded_audio is not None:
         st.success("¡Archivo subido con éxito!")
         audio_bytes = uploaded_audio.read()
@@ -273,5 +281,6 @@ if st.session_state["transcription"]:
             st.session_state["transcription"] = None
             st.session_state["final_questions"] = None
             st.session_state["is_processing"] = False
-            # Clear file uploader by triggering a rerun (Streamlit component states reset naturally or if keys change)
+            # Incrementar la clave para forzar la recreación de los widgets de audio (limpiándolos)
+            st.session_state["widget_key"] += 1
             st.rerun()
