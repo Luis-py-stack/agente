@@ -261,8 +261,9 @@ if st.session_state["transcription"]:
         st.markdown(st.session_state["final_questions"])
 
         # Reset button
-        if st.button("Reiniciar", type="primary"):
+        if st.button("Grabar o subir un nuevo audio", type="primary"):
             st.session_state["transcription"] = None
             st.session_state["final_questions"] = None
             st.session_state["is_processing"] = False
+            # Clear file uploader by triggering a rerun (Streamlit component states reset naturally or if keys change)
             st.rerun()
