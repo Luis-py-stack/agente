@@ -1,0 +1,9 @@
+streamlit
+langchain-groq
+langgraph
+pydantic
+groq
+tavily-python
+langchain-community
+langchain-core
+audio_recorder_streamlit
